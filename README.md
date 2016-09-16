@@ -2,6 +2,8 @@
 
 ## Usage
 
+### Measure
+
 Add measure to your code.
 
 ```go
@@ -14,6 +16,18 @@ func foo() {
 
 }
 ```
+
+or
+
+```go
+...
+m := measure.Start("foo")
+// your code
+m.Stop()
+...
+```
+
+### Stats
 
 Get statistics.
 
