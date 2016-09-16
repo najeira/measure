@@ -102,6 +102,7 @@ func TestMeasureSort(t *testing.T) {
 
 func BenchmarkMeasure(b *testing.B) {
 	const key = "test"
+	b.ReportAllocs()
 	for i := 0; i < b.N; i++ {
 		m := Start(key)
 		m.Stop()
