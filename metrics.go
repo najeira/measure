@@ -9,6 +9,8 @@ import (
 )
 
 var (
+	Disabled bool
+
 	metrics *Metrics
 )
 
@@ -16,21 +18,22 @@ func init() {
 	metrics = NewMetrics()
 }
 
-// m := measure.Start("name")
-// ...
-// m.Stop()
-//   or
-// defer measure.Start("name").Stop()
 type Measure struct {
 	key   string
 	start time.Time
 }
 
 func Start(key string) Measure {
+	if Disabled {
+		return Measure{}
+	}
 	return Measure{key: key, start: time.Now()}
 }
 
 func (m *Measure) Stop() {
+	if Disabled {
+		return
+	}
 	metrics.Measure(m.key, m.start)
 }
 

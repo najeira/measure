@@ -108,3 +108,14 @@ func BenchmarkMeasure(b *testing.B) {
 		m.Stop()
 	}
 }
+
+func BenchmarkMeasureDisabled(b *testing.B) {
+	const key = "test"
+	Disabled = true
+	b.ReportAllocs()
+	for i := 0; i < b.N; i++ {
+		m := Start(key)
+		m.Stop()
+	}
+	Disabled = false
+}
