@@ -8,6 +8,17 @@ import (
 	mt "github.com/rcrowley/go-metrics"
 )
 
+const (
+	Key   = "key"
+	Count = "count"
+	Sum   = "sum"
+	Min   = "min"
+	Max   = "max"
+	Avg   = "avg"
+	Rate  = "rate"
+	P95   = "p95"
+)
+
 var (
 	Disabled bool
 
@@ -140,17 +151,17 @@ func (p StatsSorter) Len() int {
 func (p StatsSorter) Less(i, j int) bool {
 	n, m := p.stats[i], p.stats[j]
 	switch p.key {
-	case "count":
+	case Count:
 		return n.Count < m.Count
-	case "min":
+	case Min:
 		return n.Min < m.Min
-	case "max":
+	case Max:
 		return n.Max < m.Max
-	case "avg":
+	case Avg:
 		return n.Avg < m.Avg
-	case "rate":
+	case Rate:
 		return n.Rate < m.Rate
-	case "p95":
+	case P95:
 		return n.P95 < m.P95
 	}
 	return n.Sum < m.Sum
