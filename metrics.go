@@ -2,6 +2,7 @@ package measure
 
 import (
 	"sort"
+	"strings"
 	"sync"
 	"time"
 
@@ -151,6 +152,8 @@ func (p StatsSorter) Len() int {
 func (p StatsSorter) Less(i, j int) bool {
 	n, m := p.stats[i], p.stats[j]
 	switch p.key {
+	case Key:
+		return strings.Compare(n.Key, m.Key) < 0
 	case Count:
 		return n.Count < m.Count
 	case Min:
