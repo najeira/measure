@@ -42,7 +42,7 @@ func Start(key string) Measure {
 	return Measure{key: key, start: time.Now()}
 }
 
-func (m *Measure) Stop() {
+func (m Measure) Stop() {
 	if Disabled {
 		return
 	}
