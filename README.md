@@ -44,3 +44,7 @@ Reset statistics.
 ```go
 measure.Reset()
 ```
+
+## License
+
+MIT
