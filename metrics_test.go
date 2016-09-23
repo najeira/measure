@@ -100,6 +100,32 @@ func TestMeasureSort(t *testing.T) {
 	}
 }
 
+func TestMeasureMetrics(t *testing.T) {
+	m1 := NewMetrics()
+	m2 := NewMetrics()
+
+	s1 := m1.Start("test")
+	s2 := m2.Start("test")
+
+	s1.Stop()
+	s2.Stop()
+
+	if len(m1.metrics) != 1 {
+		t.Error("invalid len")
+	} else if _, ok := m1.metrics["test"]; !ok {
+		t.Error("invalid map")
+	}
+
+	if len(m2.metrics) != 1 {
+		t.Error("invalid len")
+	} else if _, ok := m2.metrics["test"]; !ok {
+		t.Error("invalid map")
+	}
+
+	log.Print(m1.GetStats())
+	log.Print(m2.GetStats())
+}
+
 func BenchmarkMeasure(b *testing.B) {
 	const key = "test"
 	b.ReportAllocs()

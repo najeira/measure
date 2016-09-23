@@ -23,30 +23,28 @@ const (
 var (
 	Disabled bool
 
-	metrics *Metrics
+	defaultMetrics *Metrics
 )
 
 func init() {
-	metrics = NewMetrics()
+	defaultMetrics = NewMetrics()
 }
 
 type Measure struct {
-	key   string
-	start time.Time
+	key     string
+	start   time.Time
+	metrics *Metrics
 }
 
 func Start(key string) Measure {
-	if Disabled {
-		return Measure{}
-	}
-	return Measure{key: key, start: time.Now()}
+	return defaultMetrics.Start(key)
 }
 
 func (m Measure) Stop() {
 	if Disabled {
 		return
 	}
-	metrics.Measure(m.key, m.start)
+	m.metrics.Update(m.key, m.start)
 }
 
 type Metrics struct {
@@ -55,18 +53,25 @@ type Metrics struct {
 }
 
 func GetStats() StatsSlice {
-	return metrics.GetStats()
+	return defaultMetrics.GetStats()
 }
 
 func Reset() {
-	metrics.Reset()
+	defaultMetrics.Reset()
 }
 
 func NewMetrics() *Metrics {
 	return &Metrics{metrics: make(map[string]mt.Timer)}
 }
 
-func (m *Metrics) Measure(key string, start time.Time) {
+func (m *Metrics) Start(key string) Measure {
+	if Disabled {
+		return Measure{}
+	}
+	return Measure{key: key, start: time.Now(), metrics: m}
+}
+
+func (m *Metrics) Update(key string, start time.Time) {
 	m.mu.RLock()
 	t, ok := m.metrics[key]
 	m.mu.RUnlock()
