@@ -44,3 +44,18 @@ Reset statistics.
 ```go
 measure.Reset()
 ```
+
+### Metrics
+
+```go
+var metricsA = measure.NewMetrics()
+var metricsB = measure.NewMetrics()
+
+func foo() {
+    defer metricsA.Start("foo").Stop()
+}
+
+func bar() {
+    defer metricsB.Start("bar").Stop()
+}
+```
