@@ -59,3 +59,7 @@ func bar() {
     defer metricsB.Start("bar").Stop()
 }
 ```
+
+## License
+
+MIT
