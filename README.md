@@ -34,8 +34,11 @@ Get statistics.
 ```go
 stats := measure.GetStats()
 stats.SortDesc("sum")
-for _, stat := range stats {
-    fmt.Printf("%s = %f\n", stat.Key, stat.Sum)
+
+// print stats in CSV format
+for _, s := range stats {
+	fmt.Fprintf(w, "%s,%d,%f,%f,%f,%f,%f,%f\n",
+		s.Key, s.Count, s.Sum, s.Min, s.Max, s.Avg, s.Rate, s.P95)
 }
 ```
 
@@ -46,6 +49,8 @@ measure.Reset()
 ```
 
 ### Metrics
+
+You can handle multiple metrics.
 
 ```go
 var metricsA = measure.NewMetrics()
